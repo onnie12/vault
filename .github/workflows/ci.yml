@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Onni has no Mac. This workflow is the only place the app is compiled, so it
+# also produces the unsigned IPA that gets sideloaded onto the iPhone.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    # Label confirmed 2026-09-20: xcode-27 (arm64, macOS 27, public preview).
+    runs-on: xcode-27
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Versions
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate project
+        run: xcodegen generate
+
+      - name: VaultCore tests
+        run: swift test --package-path VaultCore
+
+      - name: List available simulators
+        run: xcrun simctl list devices available
+
+      # If the iPhone 17 simulator is missing on the runner, take a name from
+      # the step above and change it here.
+      - name: App tests
+        run: |
+          xcodebuild test \
+            -project Vault.xcodeproj \
+            -scheme Vault \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Unsigned device build
+        run: |
+          xcodebuild build \
+            -project Vault.xcodeproj \
+            -scheme Vault \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/Vault.app Payload/
+          zip -qry Vault.ipa Payload
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Vault-ipa
+          path: Vault.ipa
+          if-no-files-found: error

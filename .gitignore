@@ -1,0 +1,31 @@
+# The Xcode project is generated from project.yml by XcodeGen.
+# Never commit it: it would conflict on every regeneration.
+*.xcodeproj/
+*.xcworkspace/
+
+# Xcode user state and build output
+xcuserdata/
+DerivedData/
+build/
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CI packaging leftovers
+Payload/
+*.ipa
+
+# macOS junk, in case the project is opened on a borrowed Mac
+.DS_Store
+
+# Onni's real data must never be committed (CLAUDE.md section 13).
+# Test fixtures are synthetic copies of the structure, nothing more.
+conversations.json
+users.json
+projects.json
+memories.json
+*claude*export*.zip
+data-*.zip
+Fixtures/real/

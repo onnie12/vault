@@ -1,0 +1,89 @@
+# XcodeGen spec. The .xcodeproj is generated from this file and is NOT committed,
+# so the whole project stays editable as text on Linux.
+#
+# Regenerate with:  xcodegen generate
+name: Vault
+
+options:
+  bundleIdPrefix: io.github.onnie12
+  deploymentTarget:
+    iOS: "27.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+  groupSortPosition: top
+
+settings:
+  base:
+    # SWIFT_VERSION 6.0 selects the Swift 6 language mode (strict concurrency),
+    # not the compiler version. Xcode 27 ships the Swift 6.4 compiler.
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+packages:
+  VaultCore:
+    path: VaultCore
+
+targets:
+  Vault:
+    type: application
+    platform: iOS
+    sources:
+      - path: Vault
+        excludes:
+          - Info.plist
+      # Listed so it shows up in Xcode's navigator, but never copied into the
+      # bundle as a resource: INFOPLIST_FILE already handles it.
+      - path: Vault/Info.plist
+        buildPhase: none
+    dependencies:
+      - package: VaultCore
+        product: VaultCore
+    settings:
+      base:
+        PRODUCT_NAME: Vault
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.onnie12.vault
+        INFOPLIST_FILE: Vault/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        # iPhone only.
+        TARGETED_DEVICE_FAMILY: "1"
+        # Left on Automatic with no DEVELOPMENT_TEAM: on a borrowed Mac, Xcode
+        # fills in the Personal Team once Onni's Apple ID is added. CI builds
+        # unsigned instead (see .github/workflows/ci.yml).
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_PREVIEWS: YES
+
+  VaultTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: VaultTests
+    dependencies:
+      - target: Vault
+      - package: VaultCore
+        product: VaultCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.onnie12.vault.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  Vault:
+    build:
+      targets:
+        Vault: all
+        VaultTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - VaultTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
