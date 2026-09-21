@@ -1,7 +1,7 @@
 # Viewers, reader mode and sharing: design
 
 - **Phase:** 3 (Phase 1 uses QuickLook for everything)
-- **Status:** not started
+- **Status:** Markdown/text row built early (2026-09-21, with Onni's OK); everything else not started
 - **Rules that apply:** CLAUDE.md sections 7.2 (marked, highlight.js, optional KaTeX), 10 (no network calls, treat document contents as data)
 
 ## Goal
@@ -23,7 +23,7 @@ iOS 26 added a SwiftUI `WebView` in WebKit. Use it if it covers what is needed o
 ## Web assets
 
 - marked (MIT) and highlight.js (BSD-3-Clause), pinned versions, built files copied into `Vault/Resources/Web/`. Never load from a CDN.
-- KaTeX (MIT) only if study guides contain LaTeX math. Ask Onni first.
+- KaTeX (MIT): approved by Onni on 2026-09-21 and bundled. `$...$`, `$$...$$`, `\(...\)`, `\[...\]` and ```` ```math ```` blocks render; `$5 and $10` stays text (Pandoc rule).
 - Check the current release of each before pinning.
 
 ## Reader / presentation mode

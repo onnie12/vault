@@ -154,8 +154,9 @@ vault/
 | `weichsel/ZIPFoundation` | Unzip the Claude export, write backup ZIPs |
 | `apple/swift-crypto` | SHA-256 for de-duplication (`import Crypto`), works on Linux too |
 | marked (MIT), highlight.js (BSD-3-Clause), bundled as files | Offline Markdown and code rendering in the web view. Pin versions, copy the built files into `Resources/Web/`, never load from a CDN |
+| KaTeX (MIT), bundled as files | LaTeX math in Markdown. Approved by Onni 2026-09-21. Only the woff2 fonts are bundled |
 
-Check the current release of each before pinning. KaTeX (MIT) is optional if study guides contain LaTeX math; ask first.
+Check the current release of each before pinning. Pinned 2026-09-21: marked 18.0.13, highlight.js 11.12.0 (cdn-assets build plus the PowerShell language), KaTeX 0.18.7. License files are in `Resources/Web/licenses/`.
 
 ### 7.3 Storage and 7.4 SwiftData models
 
@@ -374,3 +375,16 @@ Checked later on 2026-09-20, for the CI workflow:
 - 2026-09-21 (session 5, 11:12): added `material/zurich-driving-license-guide.md` at Onni's request
   (general guide to a category B licence in Zürich). Check found no personal details and no school
   material, so his request was taken as the confirmation.
+- 2026-09-21 (session 5, later): Onni asked for nicer Markdown. With his OK the **Markdown/text viewer
+  was pulled forward from Phase 3** (only that row of the viewer table; HTML, PDF, image viewers, reader
+  mode and Export as PDF stay in Phase 3, and Phase 2 is still next after the Phase 1 device check).
+  Style: Apple Notes-like. KaTeX approved (section 7.2). Built: `Vault/Resources/Web/` (template, CSS,
+  render script with a Content-Security-Policy that blocks document scripts), `Features/Viewer/`
+  (`TextDocumentView`, `RenderedTextView` wrapping `WKWebView`, `TextRenderPayload`), `TextViewerMode`
+  in `DocumentKind.swift`. Markdown, plain text, code and JSON open in it; everything else stays in
+  QuickLook. Single line breaks are kept (marked `breaks: true`) because Claude's answers rely on them.
+  Verified locally: 31/31 app tests on the iPhone 17 simulator (7 new ones render real Markdown in a
+  web view: tables, highlighting, KaTeX, "$5" not treated as math, injected scripts blocked), and
+  screenshots of Onni's two `.md` files in light and dark mode. Not on a device yet.
+  Open from earlier: search text cut at 50,000 characters misses the end of the Parabeln guide;
+  suggested collapsing whitespace first, Onni has not answered.
