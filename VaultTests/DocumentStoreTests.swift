@@ -39,7 +39,7 @@ struct DocumentStoreTests {
         #expect(snapshot.sourceRaw == "shared")
         #expect(snapshot.contentTypeIdentifier == "net.daringfireball.markdown")
         #expect(snapshot.textPreview == "# M319 Lernziele Variablen und Schleifen.")
-        #expect(snapshot.searchText == text)
+        #expect(snapshot.searchText == "# M319 Lernziele Variablen und Schleifen.")
         #expect(snapshot.byteSize == Data(text.utf8).count)
 
         let stored = locations.fileURL(forRelativePath: snapshot.storedRelativePath)

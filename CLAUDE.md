@@ -386,5 +386,6 @@ Checked later on 2026-09-20, for the CI workflow:
   Verified locally: 31/31 app tests on the iPhone 17 simulator (7 new ones render real Markdown in a
   web view: tables, highlighting, KaTeX, "$5" not treated as math, injected scripts blocked), and
   screenshots of Onni's two `.md` files in light and dark mode. Not on a device yet.
-  Open from earlier: search text cut at 50,000 characters misses the end of the Parabeln guide;
-  suggested collapsing whitespace first, Onni has not answered.
+  Then, with Onni's OK: `TextSnippets.searchText` squashes whitespace before the 50,000-character
+  cut (shares the loop with `preview`). The Parabeln guide is now searchable up to its source footer
+  (last 229 characters). Documents imported earlier keep their old search text until re-imported.

@@ -31,8 +31,22 @@ public enum TextSnippets {
 
     /// Short one-paragraph preview for list rows: whitespace runs become one space.
     public static func preview(of text: String) -> String {
+        collapsingWhitespace(text, limit: previewLength)
+    }
+
+    /// The part of the text that gets indexed for search, or nil when there is nothing to index.
+    /// Whitespace is squashed first, so the indentation and blank lines of an HTML
+    /// file do not use up the limit (the Parabeln study guide lost its last pages that way).
+    public static func searchText(of text: String) -> String? {
+        let result = collapsingWhitespace(text, limit: searchLength)
+        return result.isEmpty ? nil : result
+    }
+
+    /// Every run of whitespace becomes one space, leading and trailing whitespace is
+    /// dropped, and the result stops at `limit` characters.
+    static func collapsingWhitespace(_ text: String, limit: Int) -> String {
         var result = ""
-        result.reserveCapacity(previewLength)
+        result.reserveCapacity(min(limit, text.utf8.count))
         var count = 0
         var pendingSpace = false
 
@@ -42,21 +56,15 @@ public enum TextSnippets {
                 continue
             }
             if pendingSpace {
-                guard count < previewLength else { break }
+                guard count < limit else { break }
                 result.append(" ")
                 count += 1
                 pendingSpace = false
             }
-            guard count < previewLength else { break }
+            guard count < limit else { break }
             result.append(character)
             count += 1
         }
         return result.trimmingCharacters(in: .whitespaces)
-    }
-
-    /// The part of the text that gets indexed for search, or nil when there is nothing to index.
-    public static func searchText(of text: String) -> String? {
-        let prefix = String(text.prefix(searchLength))
-        return prefix.allSatisfy(\.isWhitespace) ? nil : prefix
     }
 }

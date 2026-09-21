@@ -24,6 +24,18 @@ struct TextSnippetsTests {
         #expect(TextSnippets.searchText(of: "  \n ") == nil)
     }
 
+    @Test("Search text squashes whitespace first, so layout-heavy files lose no words to the limit")
+    func searchTextCollapsesWhitespace() {
+        #expect(TextSnippets.searchText(of: "# Title\n\n  Some\t\ttext \n") == "# Title Some text")
+
+        // 40,000 characters of words, padded with 40,000 spaces of HTML layout:
+        // without squashing, the last word would fall past the 50,000 limit.
+        let padded = String(repeating: "wort ", count: 8_000)
+            .replacingOccurrences(of: " ", with: String(repeating: " ", count: 6)) + "Tangente"
+        let search = TextSnippets.searchText(of: padded)
+        #expect(search?.hasSuffix("Tangente") == true)
+    }
+
     @Test("Decodes UTF-8 and drops a byte order mark")
     func decodesUTF8() {
         let data = Data([0xEF, 0xBB, 0xBF]) + Data("Prüfung".utf8)
