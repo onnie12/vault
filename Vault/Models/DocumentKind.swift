@@ -18,3 +18,24 @@ enum DocumentKind {
         return "doc"
     }
 }
+
+/// How the built-in text viewer shows a file, or nil when QuickLook shows it instead.
+enum TextViewerMode: String, Sendable {
+    case markdown, code, text
+
+    /// Markdown, plain text, source code and JSON open in the text viewer (viewers spec).
+    /// HTML, RTF and CSV are text too, but QuickLook shows them better for now.
+    init?(contentTypeIdentifier: String) {
+        guard let type = UTType(contentTypeIdentifier), type.conforms(to: .text) else { return nil }
+        if type.conforms(to: .html) || type.conforms(to: .rtf) || type.conforms(to: .delimitedText) {
+            return nil
+        }
+        if let markdown = UTType("net.daringfireball.markdown"), type.conforms(to: markdown) {
+            self = .markdown
+        } else if type.conforms(to: .plainText) && !type.conforms(to: .sourceCode) {
+            self = .text
+        } else {
+            self = .code
+        }
+    }
+}

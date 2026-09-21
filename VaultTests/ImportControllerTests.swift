@@ -37,16 +37,29 @@ struct ImportControllerTests {
         #expect(controller.errorMessage == nil)
     }
 
-    @Test("Opening an existing document points QuickLook at its stored file")
-    func openExisting() async throws {
+    @Test("Opening an existing Markdown document shows it in the text viewer")
+    func openExistingMarkdown() async throws {
         await controller.importFiles([try TestFiles.write("a.md", "same")], source: .picker)
         await controller.importFiles([try TestFiles.write("b.md", "same")], source: .picker)
         let id = try #require(controller.duplicateOf)
 
         await controller.openExisting(id)
 
+        #expect(controller.textViewerDocumentID == id)
+        #expect(controller.previewURL == nil)
+    }
+
+    @Test("Opening an existing PDF points QuickLook at its stored file")
+    func openExistingPDF() async throws {
+        await controller.importFiles([try TestFiles.write("a.pdf", "same")], source: .picker)
+        await controller.importFiles([try TestFiles.write("b.pdf", "same")], source: .picker)
+        let id = try #require(controller.duplicateOf)
+
+        await controller.openExisting(id)
+
         let url = try #require(controller.previewURL)
-        #expect(url.lastPathComponent == "a.md")
+        #expect(url.lastPathComponent == "a.pdf")
         #expect(url.path(percentEncoded: false).hasPrefix(locations.filesDirectory.path(percentEncoded: false)))
+        #expect(controller.textViewerDocumentID == nil)
     }
 }

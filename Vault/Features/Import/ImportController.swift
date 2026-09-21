@@ -19,6 +19,8 @@ final class ImportController {
     var errorMessage: String?
     /// The file QuickLook is showing. Nil means QuickLook is closed.
     var previewURL: URL?
+    /// The document open in the built-in text viewer (Markdown, text, code). Nil means closed.
+    var textViewerDocumentID: UUID?
     var isPasteSheetPresented = false
 
     private var isScanningInbox = false
@@ -74,10 +76,20 @@ final class ImportController {
         }
     }
 
+    /// Opens a document: Markdown, text and code in the text viewer, everything else in QuickLook.
+    func open(_ id: UUID, contentTypeIdentifier: String, storedRelativePath: String) {
+        if TextViewerMode(contentTypeIdentifier: contentTypeIdentifier) != nil {
+            textViewerDocumentID = id
+        } else {
+            previewURL = locations.fileURL(forRelativePath: storedRelativePath)
+        }
+    }
+
     /// Opens the document that a duplicate import pointed at.
     func openExisting(_ id: UUID) async {
         guard let snapshot = try? await store.snapshot(of: id) else { return }
-        previewURL = locations.fileURL(forRelativePath: snapshot.storedRelativePath)
+        open(id, contentTypeIdentifier: snapshot.contentTypeIdentifier,
+             storedRelativePath: snapshot.storedRelativePath)
     }
 
     /// Source S2. Runs whenever the app becomes active; overlapping calls are ignored.

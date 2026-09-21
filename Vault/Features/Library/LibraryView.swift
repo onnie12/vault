@@ -102,6 +102,9 @@ struct LibraryView: View {
                 Text(message)
             }
             .quickLookPreview($controller.previewURL)
+            .navigationDestination(item: $controller.textViewerDocumentID) { id in
+                textViewer(for: id)
+            }
         }
     }
 
@@ -111,7 +114,8 @@ struct LibraryView: View {
         let id = document.id
         let fileURL = controller.fileURL(for: document)
         return Button {
-            controller.previewURL = fileURL
+            controller.open(id, contentTypeIdentifier: document.contentTypeIdentifier,
+                            storedRelativePath: document.storedRelativePath)
         } label: {
             DocumentRow(document: document)
         }
@@ -140,6 +144,16 @@ struct LibraryView: View {
             Button("Delete", systemImage: "trash", role: .destructive) {
                 pendingDelete = document
             }
+        }
+    }
+
+    @ViewBuilder
+    private func textViewer(for id: UUID) -> some View {
+        if let document = documents.first(where: { $0.id == id }),
+           let mode = TextViewerMode(contentTypeIdentifier: document.contentTypeIdentifier) {
+            TextDocumentView(title: document.title, fileURL: controller.fileURL(for: document), mode: mode)
+        } else {
+            ContentUnavailableView("Document not found", systemImage: "questionmark.folder")
         }
     }
 
