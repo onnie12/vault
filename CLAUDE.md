@@ -365,3 +365,9 @@ Checked later on 2026-09-20, for the CI workflow:
   Extracted to `material/`, root zips now ignored, section 13 changed to allow documents he explicitly
   names. Also a good real-world Phase 3 test case: inline SVGs, one script using localStorage,
   Google Fonts loaded from the network.
+- 2026-09-21 (session 5, 11:03): Onni asked to add two more files; checked and confirmed like the first.
+  `material/Lernhilfe_BWL_4_5.pdf` (marketing study guide, made from his whiteboard notes and the
+  school's BWL_04/BWL_05 solution booklets): the PDF's `/Author (Onni)` metadata was removed with
+  qpdf at his request; text and all 7 rendered pages verified identical to the original, visible
+  footer "Zürich, September 2026" kept. `material/english-assessment-interview.md` (script for a
+  graded English speaking assessment, invented characters, says Claude wrote it): committed as is.
