@@ -288,7 +288,7 @@ Checked later on 2026-09-20, for the CI workflow:
 - GitHub runner label `xcode-27` still current (arm64, now on macOS 27, public preview): https://github.blog/changelog/2026-09-10-xcode-27-runner-image-now-runs-on-macos-27/
 - `actions/checkout` latest major is **v7** (v7.0.1, 2026-09-15): https://github.com/actions/checkout/releases
 - `actions/upload-artifact` latest major is **v7**: https://github.com/actions/upload-artifact/releases
-- XcodeGen latest release is **2.46.0** (2026-07-16). Its notes mention neither Xcode 27 nor Swift 6.4, and the newest `objectVersion` it writes is 77 ("for Xcode 16 projects"). So XcodeGen on Xcode 27 is still **[unverified]**: the first CI run is what proves it. Fallback if generation breaks: create the project once in Xcode 27 on the borrowed Mac and commit the `.xcodeproj`. https://github.com/yonaskolb/XcodeGen/releases
+- XcodeGen latest release is **2.46.0** (2026-07-16). Its notes mention neither Xcode 27 nor Swift 6.4, and the newest `objectVersion` it writes is 77 ("for Xcode 16 projects"). **Update:** CI run 35511865168 proved XcodeGen works with Xcode 27 **[verified 2026-09-20]**. https://github.com/yonaskolb/XcodeGen/releases
 
 ---
 
@@ -329,3 +329,11 @@ Checked later on 2026-09-20, for the CI workflow:
   - backup spec: restore conflict rules listed as open items (the old text did not say).
   - Section 3 bundle ID and section 1 Swift level updated to the section 14 answers.
   Phase 0 status unchanged: still waiting on the first green CI run.
+- 2026-09-21 (session 3, later): **Phase 0 done.** Verified from the log of CI run 35511865168
+  (commit cb10e1a): macOS 27.0 runner, Xcode 27.0 (27A266a), Swift 6.4, XcodeGen generated the project,
+  VaultCore 7/7 tests passed, app test 1/1 passed on the `iPhone 17` simulator (iOS 27.0),
+  unsigned device build succeeded, `Vault-ipa` artifact uploaded. Not installed on a device yet
+  (Phase 0 has no device check). Note: the runner's Xcode path is `Xcode_27_Release_Candidate.app`
+  but the build number is the release build 27A266a. Harmless `appintentsmetadataprocessor`
+  warnings appear because the app does not use App Intents.
+  Onni approved the seven specs. Next: Phase 1 implementation plan from the library and import spec.
