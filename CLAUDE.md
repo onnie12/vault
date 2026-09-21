@@ -341,3 +341,16 @@ Checked later on 2026-09-20, for the CI workflow:
   `docs/superpowers/plans/2026-09-21-phase-1-library-and-import.md` (11 tasks, full code, not yet
   executed). Next session: execute it task by task, CI after each push. Onni plans to pull the repo
   onto a borrowed Mac; at this point that builds the Phase 0 placeholder app only.
+- 2026-09-21 (session 4, on the borrowed Mac "Petteris-MacBook-Pro", macOS 27, Xcode 27.0 27A266a):
+  **Phase 1 Tasks 1 to 10 done, code as written in the plan, no changes needed.**
+  Verified: VaultCore 26/26 tests passed locally (`swift test`) and on CI; CI run 35578412957
+  (commit 2e66a8c) ran app tests 22/22 on the `iPhone 17` simulator, unsigned device build
+  succeeded, `Vault-ipa` uploaded, no compiler warnings from our sources. Not on a device yet.
+  Mac setup notes:
+  - Homebrew there belongs to another account, so XcodeGen 2.46.0 was installed from the
+    official release zip into `~/.local/share/xcodegen`, linked as `~/.local/bin/xcodegen`.
+  - Xcode's first-launch setup had not run (CoreSimulator missing), so `xcodebuild` fails to
+    load plugins and the app cannot be compiled locally. Fix: `sudo xcodebuild -runFirstLaunch`
+    (admin password). The iOS simulator runtime is also missing; only needed for local app tests.
+  Next: Task 11, the device check with Onni's iPhone (needs the first-launch fix and his Apple ID
+  added in Xcode). Phase 1 is not done until that passes.
