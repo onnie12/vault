@@ -24,6 +24,7 @@ VaultTests/            App-level unit tests, run in the simulator.
 .github/workflows/     CI on GitHub's macOS runners.
 docs/superpowers/      Design specs (one per subsystem) and implementation plans.
 Fixtures/              Synthetic test files only, never real documents.
+material/              Real study material Onni chose to publish.
 ```
 
 `VaultCore` holds all the pure logic: the classifier, the front matter parser, the

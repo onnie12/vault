@@ -142,6 +142,7 @@ vault/
     Sources/VaultCore/       <- Classifier, FrontMatter, ClaudeExport, GitHubDiff, FileNaming
     Tests/VaultCoreTests/    <- Swift Testing (import Testing)
   Fixtures/                  <- synthetic test files only, never Onni's real documents
+  material/                  <- real documents Onni explicitly chose to publish (section 13)
 ```
 
 **Why `VaultCore`:** all pure logic (classifier, parsers, sync diffing) lives in a package that only uses Foundation, so it can be tested on Linux with `swift test` if a Swift toolchain is available, and on CI. No SwiftUI, SwiftData, UIKit, UniformTypeIdentifiers, CryptoKit or WebKit inside it.
@@ -245,7 +246,7 @@ Do one phase at a time. A phase is done when all its criteria are met, CI is gre
 - Access claude.ai in any automated way (section 4).
 - Add capabilities that need the paid Apple Developer Program (section 3.1).
 - Add dependencies not listed in 7.2 without asking.
-- Commit secrets, tokens or any of Onni's real documents or export data.
+- Commit secrets, tokens, Onni's Claude export data, or any of his real documents **unless he explicitly asks for that specific document**. Before publishing one, check it for personal details and for material copied from school, tell him what you found, and get a confirmation (this repo is public). Published documents live in `material/`, extracted, never as zips. Test fixtures stay synthetic.
 - Delete user documents automatically, ever.
 - Claim the app was tested on a device when only CI ran.
 
@@ -357,3 +358,10 @@ Checked later on 2026-09-20, for the CI workflow:
     (admin password). The iOS simulator runtime is also missing; only needed for local app tests.
   Next: Task 11, the device check with Onni's iPhone (needs the first-launch fix and his Apple ID
   added in Xcode). Phase 1 is not done until that passes.
+- 2026-09-21 (session 5, 10:57): Onni added `Parabeln vor der GLF.zip` (one Claude HTML study guide,
+  quadratic functions, 20 exam tasks with solutions, made from his class notes and the school document
+  «GLF Aufgabentypen TALS, Version 2.3»). Checked: no personal details. Told him it is school-derived
+  material and that the public repo makes it readable by anyone; he confirmed publishing twice.
+  Extracted to `material/`, root zips now ignored, section 13 changed to allow documents he explicitly
+  names. Also a good real-world Phase 3 test case: inline SVGs, one script using localStorage,
+  Google Fonts loaded from the network.

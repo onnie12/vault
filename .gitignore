@@ -20,6 +20,9 @@ Payload/
 # macOS junk, in case the project is opened on a borrowed Mac
 .DS_Store
 
+# Archives dropped into the repo root get extracted, never committed as zips.
+/*.zip
+
 # Onni's real data must never be committed (CLAUDE.md section 13).
 # Test fixtures are synthetic copies of the structure, nothing more.
 conversations.json
