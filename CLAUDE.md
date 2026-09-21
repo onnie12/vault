@@ -337,3 +337,7 @@ Checked later on 2026-09-20, for the CI workflow:
   but the build number is the release build 27A266a. Harmless `appintentsmetadataprocessor`
   warnings appear because the app does not use App Intents.
   Onni approved the seven specs. Next: Phase 1 implementation plan from the library and import spec.
+- 2026-09-21 (session 3, end): Phase 1 implementation plan written:
+  `docs/superpowers/plans/2026-09-21-phase-1-library-and-import.md` (11 tasks, full code, not yet
+  executed). Next session: execute it task by task, CI after each push. Onni plans to pull the repo
+  onto a borrowed Mac; at this point that builds the Phase 0 placeholder app only.
