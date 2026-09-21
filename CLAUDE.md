@@ -348,7 +348,10 @@ Checked later on 2026-09-20, for the CI workflow:
   succeeded, `Vault-ipa` uploaded, no compiler warnings from our sources. Not on a device yet.
   Mac setup notes:
   - Homebrew there belongs to another account, so XcodeGen 2.46.0 was installed from the
-    official release zip into `~/.local/share/xcodegen`, linked as `~/.local/bin/xcodegen`.
+    official release zip with its `install.sh` and `PREFIX=~/.local` (binary in `~/.local/bin`,
+    presets in `~/.local/share/xcodegen/SettingPresets`). If `xcodegen generate` prints
+    "No debug config settings found", the presets are missing and Xcode fails with
+    "Unable to resolve module dependency: 'VaultCore'" (it tries an x86_64 build).
   - Xcode's first-launch setup had not run (CoreSimulator missing), so `xcodebuild` fails to
     load plugins and the app cannot be compiled locally. Fix: `sudo xcodebuild -runFirstLaunch`
     (admin password). The iOS simulator runtime is also missing; only needed for local app tests.
