@@ -6,7 +6,8 @@ list, and sorts them into categories with deterministic keyword rules.
 
 Single user, no server, no App Store, no AI inside the app.
 
-The full specification lives in [CLAUDE.md](CLAUDE.md). This file is the short
+The rules live in [CLAUDE.md](CLAUDE.md), the design of each subsystem in
+[docs/superpowers/specs/](docs/superpowers/specs/). This file is the short
 version for someone opening the repo.
 
 ## Status
@@ -21,6 +22,7 @@ Vault/                 The app: SwiftUI, SwiftData, UIKit bridges.
 VaultCore/             Local Swift package. Foundation only, so it tests on Linux.
 VaultTests/            App-level unit tests, run in the simulator.
 .github/workflows/     CI on GitHub's macOS runners.
+docs/superpowers/      Design specs (one per subsystem) and implementation plans.
 Fixtures/              Synthetic test files only, never real documents.
 ```
 
@@ -54,8 +56,8 @@ Signed with a free Apple ID (Personal Team), so the signature expires after
 app keeps its data. Deleting the app deletes all of it, which is why the backup
 feature in Phase 6 exists.
 
-Route chosen: a borrowed or rented Mac, connected by cable. Steps are in CLAUDE.md
-section 11.3.
+Route chosen: a borrowed or rented Mac, connected by cable. Steps are in
+`docs/superpowers/specs/2026-09-21-build-ci-install-design.md`.
 
 ## Two constraints worth knowing up front
 
