@@ -163,7 +163,7 @@ struct LibraryView: View {
             ContentUnavailableView(
                 "No documents yet",
                 systemImage: "tray",
-                description: Text("Tap + to import a file or paste text. You can also save files to On My iPhone > Vault > Inbox in the Files app.")
+                description: Text("Tap + to import a file or paste text. You can also save files to On My iPhone > Vault > Add to Vault in the Files app.")
             )
         } else if filtered.isEmpty {
             ContentUnavailableView.search(text: searchText)

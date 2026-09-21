@@ -389,3 +389,8 @@ Checked later on 2026-09-20, for the CI workflow:
   Then, with Onni's OK: `TextSnippets.searchText` squashes whitespace before the 50,000-character
   cut (shares the loop with `preview`). The Parabeln guide is now searchable up to its source footer
   (last 229 characters). Documents imported earlier keep their old search text until re-imported.
+- 2026-09-21 (session 5, device install): First install on Onni's iPhone crashed at launch:
+  "You don't have permission to save the file "Inbox" in the folder "Documents"" (Cocoa error 513).
+  iOS reserves `Documents/Inbox` on a real device; the simulator allows it (plan Risk 2). Folder renamed
+  to `Documents/Add to Vault` (`FileLocations.inboxFolderName`), empty-state text and library spec
+  updated, test added. 32/32 app tests pass locally. Waiting for Onni to reinstall and confirm on device.

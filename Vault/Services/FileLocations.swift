@@ -2,10 +2,14 @@ import Foundation
 
 /// Where Vault keeps things on disk.
 /// - `filesDirectory`: Application Support/Vault/Files, invisible to the user.
-/// - `inboxDirectory`: Documents/Inbox, visible in the Files app (source S2).
+/// - `inboxDirectory`: Documents/Add to Vault, visible in the Files app (source S2).
 struct FileLocations: Sendable {
     let filesDirectory: URL
     let inboxDirectory: URL
+
+    /// Not "Inbox": iOS reserves Documents/Inbox on a real iPhone and refuses to let the app
+    /// create it (error 513, seen on Onni's iPhone 2026-09-21). The simulator allows it.
+    static let inboxFolderName = "Add to Vault"
 
     static func standard() throws -> FileLocations {
         let fileManager = FileManager.default
@@ -15,7 +19,7 @@ struct FileLocations: Sendable {
                                             appropriateFor: nil, create: true)
         let locations = FileLocations(
             filesDirectory: support.appending(path: "Vault/Files", directoryHint: .isDirectory),
-            inboxDirectory: documents.appending(path: "Inbox", directoryHint: .isDirectory)
+            inboxDirectory: documents.appending(path: inboxFolderName, directoryHint: .isDirectory)
         )
         try locations.createDirectories()
         return locations

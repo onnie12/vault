@@ -104,11 +104,11 @@ final class VaultCategory {
 - Receive files in SwiftUI with `.onOpenURL`. Call `startAccessingSecurityScopedResource()` before reading, copy the file into the Vault store, then `stopAccessingSecurityScopedResource()`.
 - **Confirm on the device** that Vault appears in the share sheet for a PDF and a `.md` file **[unverified]**. If it does not, S2 is the fallback.
 
-### S2: Inbox folder in the Files app
+### S2: "Add to Vault" folder in the Files app
 
 - Set `UIFileSharingEnabled = YES` and `LSSupportsOpeningDocumentsInPlace = YES`. The app's `Documents` folder then shows up in the Files app under On My iPhone > Vault.
-- Create `Documents/Inbox/`. Onni can "Save to Files" into it from any app, including the Claude app.
-- On launch and whenever the scene becomes active, import everything in `Inbox/`, then remove the originals from `Inbox/` only after a successful import.
+- Create `Documents/Add to Vault/`. Not `Documents/Inbox/`: iOS reserves that name on a real iPhone and the app gets "permission denied" (error 513) creating it **[verified 2026-09-21 on Onni's iPhone]**; the simulator does not enforce this. Onni can "Save to Files" into it from any app, including the Claude app.
+- On launch and whenever the scene becomes active, import everything in `Add to Vault/`, then remove the originals from it only after a successful import.
 
 ### S3: File picker
 
