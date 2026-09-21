@@ -1,0 +1,156 @@
+/* Apple Notes-like look for Markdown, plain text and code files.
+   The -apple-system-* fonts follow the iPhone's Dynamic Type text size. */
+
+:root {
+  color-scheme: light dark;
+  --background: #ffffff;
+  --text: #1c1c1e;
+  --secondary: #6c6c70;
+  --tint: #0a66d8;
+  --separator: #e3e3e8;
+  --fill: #f2f2f7;
+  --fill-strong: #e9e9ef;
+  --quote: #0a66d8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --text: #f2f2f7;
+    --secondary: #98989f;
+    --tint: #4ea1ff;
+    --separator: #38383a;
+    --fill: #1c1c1e;
+    --fill-strong: #2c2c2e;
+    --quote: #4ea1ff;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--background);
+}
+
+body {
+  margin: 0;
+  padding: 16px 20px calc(40px + env(safe-area-inset-bottom));
+  font: -apple-system-body;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--background);
+  /* No automatic hyphenation: documents are German or English, and a wrong
+     language guess splits words badly ("Anführungsze-ichen"). */
+  overflow-wrap: break-word;
+}
+
+main > :first-child { margin-top: 4px; }
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  margin: 1.6em 0 0.5em;
+}
+h1 { font: -apple-system-title1; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font: -apple-system-title2; font-weight: 700; color: var(--tint); }
+h3 { font: -apple-system-title3; font-weight: 600; color: var(--tint); }
+h4, h5, h6 { font: -apple-system-headline; }
+h6 { color: var(--secondary); }
+
+p, ul, ol, blockquote, table, pre, .math-block, .table-scroll { margin: 0 0 1em; }
+
+a { color: var(--tint); text-decoration: none; }
+strong { font-weight: 650; }
+
+ul, ol { padding-left: 1.4em; }
+li { margin: 0.25em 0; }
+li > ul, li > ol { margin-bottom: 0; }
+li::marker { color: var(--secondary); }
+li:has(> input[type="checkbox"]) { list-style: none; margin-left: -1.4em; }
+input[type="checkbox"] { accent-color: var(--tint); margin-right: 0.4em; }
+
+hr {
+  border: none;
+  height: 1px;
+  background: var(--separator);
+  margin: 2em 0;
+}
+
+blockquote {
+  margin-left: 0;
+  padding: 0.6em 1em;
+  border-left: 3px solid var(--quote);
+  background: var(--fill);
+  border-radius: 0 10px 10px 0;
+  color: var(--secondary);
+}
+blockquote > :last-child { margin-bottom: 0; }
+
+img { max-width: 100%; height: auto; border-radius: 10px; }
+
+/* Code */
+code, pre {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88em;
+}
+:not(pre) > code {
+  background: var(--fill-strong);
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+}
+pre {
+  background: var(--fill);
+  border-radius: 12px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+pre code.hljs {
+  background: transparent;
+  padding: 0;
+  font-size: 1em;
+}
+
+/* Tables scroll sideways instead of squashing the page */
+.table-scroll {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--separator);
+}
+table {
+  border-collapse: collapse;
+  min-width: 100%;
+  margin: 0;
+}
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--separator);
+}
+th {
+  background: var(--fill-strong);
+  font-weight: 600;
+  white-space: nowrap;
+}
+tbody tr:nth-child(even) td { background: var(--fill); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Math */
+.math-block { overflow-x: auto; overflow-y: hidden; }
+.katex { font-size: 1.08em; }
+
+/* Plain text files: keep line breaks, readable font */
+.plain-text {
+  white-space: pre-wrap;
+  font: -apple-system-body;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Source code files: one full-width block */
+.code-file {
+  margin: 0;
+  border-radius: 12px;
+}

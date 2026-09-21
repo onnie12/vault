@@ -34,6 +34,12 @@ targets:
       - path: Vault
         excludes:
           - Info.plist
+          - Resources/Web
+          - Resources/Web/**
+      # Copied into the app as one folder ("Web/") so katex.min.css still finds fonts/.
+      - path: Vault/Resources/Web
+        type: folder
+        buildPhase: resources
       # Listed so it shows up in Xcode's navigator, but never copied into the
       # bundle as a resource: INFOPLIST_FILE already handles it.
       - path: Vault/Info.plist
