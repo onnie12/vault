@@ -371,3 +371,6 @@ Checked later on 2026-09-20, for the CI workflow:
   qpdf at his request; text and all 7 rendered pages verified identical to the original, visible
   footer "Zürich, September 2026" kept. `material/english-assessment-interview.md` (script for a
   graded English speaking assessment, invented characters, says Claude wrote it): committed as is.
+- 2026-09-21 (session 5, 11:12): added `material/zurich-driving-license-guide.md` at Onni's request
+  (general guide to a category B licence in Zürich). Check found no personal details and no school
+  material, so his request was taken as the confirmation.
